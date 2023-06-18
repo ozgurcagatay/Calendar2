@@ -1,16 +1,24 @@
-// export function fonksiyon(){
-//   console.log("merhabalar mq");
-// }
-const name= document.getElementById("name");
-const surname= document.getElementById("surname");
-const tcNo= document.getElementById("tcNo");
-const username=document.getElementById("username");
-const phone= document.getElementById("phone");
-const email= document.getElementById("email");
-const adress= document.getElementById("adress");
-const password= document.getElementById("password");
-const repassword= document.getElementById("repassword");
+const container= document.querySelector(".container");
+const nameTag= document.getElementById("name");
+const surnameTag= document.getElementById("surname");
+const tcNoTag= document.getElementById("tcNo");
+const usernameTag=document.getElementById("username");
+const phoneTag= document.getElementById("phone");
+const emailTag= document.getElementById("email");
+const adressTag= document.getElementById("adress");
+const passwordTag= document.getElementById("password");
+const repasswordTag= document.getElementById("repassword");
+const inputElements= document.querySelectorAll("input");
 
+let user = [
+  {name: "ozgur", surname: "su", tcNo: "11111111111", username: "user",usertype: 1, gsm:"5318888888", email: "example@example.com", adress:"manisa/Turkey", password: "123456789"},
+  {name: "cagatay", surname: "dikbaş", tcNo: "2222222222", username: "user2",usertype: 2, gsm:"5319999999", email: "user@example.com", adress:"izmir/Turkey", password: "987654321"},
+]
+//yeni kullanıcı ekleme
+function newUser(){
+  user.push({name: nameTag.value, surname: surnameTag.value, tcNo: tcNoTag.value, username: usernameTag.value, gsm: phoneTag.value, email: emailTag.value, adress: adressTag.value, password: passwordTag.value})
+}
+getFromLocalStorage();
 
 function error(input,message){
     input.className='form-control is-invalid';
@@ -35,7 +43,7 @@ function checkEmail(input){
 function checkRequired(inputs) {
     inputs.forEach(function(input){
         if(input.value===''){
-          error(input,`${input.id} is required.`);          
+          error(input,`${input.id} boş bırakılamaz!!!`);          
         }
         else{
           succes(input);
@@ -69,65 +77,73 @@ function checkTc(tcNo){
     error(tcNo,'Tc kimlik Numarası 11 haneli olmalıdır!!!');
   }
 }
-
-// function saveToLocalStorage(indexs){
-//   localStorage.setItem('selectedSeats',JSON.stringify(indexs));
-//   localStorage.setItem('selectedMovieIndex',select.selectedIndex);
-// }
-
-// function getFromLocalStorage(){
-//   const selectedSeats= JSON.parse(localStorage.getItem('selectedSeats'));
-
-//   if(selectedSeats !=null && selectedSeats.length>-1){
-//       seats.forEach(function(seat,index){
-//           if (selectedSeats.indexOf(index)>-1){
-//               seat.classList.add('selected');
-//           }
-//       });
-//   }
+function checkName(username){
+  if(username.value.length == 0){
+    error(username,"İsim alanı boş bırakılamaz!!!");
+  }
+}
+function checkUserType(){
+  let admin= document.getElementById("admin");
+  let user= document.getElementById("user");
+  if(admin.checked != true && user.checked != true ){
+    error(admin,"Kullanıcı tipi boş bırakılamaz!!!")
+    error(user,"Kullanıcı tipi boş bırakılamaz!!!")
+  }
+}
+function submitAccept(){
+  for(let i=0 ; i<inputElements.length;i++){
+    let classList=inputElements[i].classList;
+    if(classList[i] != "is-invalid"){
+      window.location.href='logIn.html';
+    }
+  }
+}
+function saveToLocalStorage(user){
+  localStorage.setItem("userList",JSON.stringify(user))
+}
+function getFromLocalStorage(){
+  const userList= JSON.parse(localStorage.getItem('userList'))
+}
 
 function saveUser(){
   localStorage.setItem('usernameValue', `${usernameValue}`);
   localStorage.setItem('passwordValue', `${passwordValue}`);
 }
 
-function User(name,surname, username,userType, password, tcNo, phoneNumber, email, adress, userType ){
-  this.name=name;
-  this.surname=surname;
-  this.username=username;
-  this.userType=userType;
-  this.password=password;
-  this.tcNo=tcNo;
-  this.phoneNumber=phoneNumber;
-  this.email=email;
-  this.adress=adress;
-  this.userType=userType;
-}
+// function User(name,surname, username,userType, password, tcNo, phoneNumber, email, adress, userType ){
+//   this.name=name;
+//   this.surname=surname;
+//   this.username=username;
+//   this.userType=userType;
+//   this.password=password;
+//   this.tcNo=tcNo;
+//   this.phoneNumber=phoneNumber;
+//   this.email=email;
+//   this.adress=adress;
+//   this.userType=userType;
+// }
 
 
 document.getElementById("register").addEventListener("click",function(e){
     e.preventDefault();
-    const name_user= name.value;
-    const surname_user= surname.value;
-    const tcNo_user= tcNo.value;
-    const username_user= username.value;
-    const phone_user= phone.value;
-    const email_user= email.value;
-    const adress_user= adress.value;
-    const password_user=password.value;
-    checkRequired([username,email,password,repassword,phone]);
-    checkEmail(email);
-    checkLength(username,7,15);
-    checkLength(password,7,12);
-    checkPassword(password,repassword);
-    checkPhone(phone);
-    checkTc(tcNo);
-    const user= new User(name_user, surname_user, tcNo_user, username_user, phone_user, email_user, adress_user, password_user);   
-    console.log(user);
-    console.log(checkTc(tcNo));
-    window.location.href = "logIn.html";
+    // const name_user= name.value;
+    // const surname_user= surname.value;
+    // const tcNo_user= tcNo.value;
+    // const username_user= username.value;
+    // const phone_user= phone.value;
+    // const email_user= email.value;
+    // const adress_user= adress.value;
+    // const password_user=password.value;
+    checkRequired([usernameTag,emailTag,passwordTag,repasswordTag,phoneTag,adressTag,nameTag,surnameTag]);
+    checkEmail(emailTag); 
+    checkLength(passwordTag,7,12);
+    checkPassword(passwordTag,repasswordTag);
+    checkPhone(phoneTag);
+    checkTc(tcNoTag);
+    checkUserType();
+    saveToLocalStorage(user);
+    submitAccept();
 })
-    
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
