@@ -1,4 +1,3 @@
-const container= document.querySelector(".container");
 const nameTag= document.getElementById("name");
 const surnameTag= document.getElementById("surname");
 const tcNoTag= document.getElementById("tcNo");
@@ -10,15 +9,19 @@ const passwordTag= document.getElementById("password");
 const repasswordTag= document.getElementById("repassword");
 const inputElements= document.querySelectorAll("input");
 
-let user = [
-  {name: "ozgur", surname: "su", tcNo: "11111111111", username: "user",usertype: 1, gsm:"5318888888", email: "example@example.com", adress:"manisa/Turkey", password: "123456789"},
-  {name: "cagatay", surname: "dikbaş", tcNo: "2222222222", username: "user2",usertype: 2, gsm:"5319999999", email: "user@example.com", adress:"izmir/Turkey", password: "987654321"},
-]
+let user = []
+if(localStorage.getItem("user") !== null){
+  user= JSON.parse(localStorage.getItem("user"));
+}
+//console.log(`ilk user: ${user}`);
+
 //yeni kullanıcı ekleme
 function newUser(){
   user.push({name: nameTag.value, surname: surnameTag.value, tcNo: tcNoTag.value, username: usernameTag.value, gsm: phoneTag.value, email: emailTag.value, adress: adressTag.value, password: passwordTag.value})
+
+  localStorage.setItem("user", JSON.stringify(user));
 }
-getFromLocalStorage();
+//getFromLocalStorage();
 
 function error(input,message){
     input.className='form-control is-invalid';
@@ -98,30 +101,6 @@ function submitAccept(){
     }
   }
 }
-function saveToLocalStorage(user){
-  localStorage.setItem("userList",JSON.stringify(user))
-}
-function getFromLocalStorage(){
-  const userList= JSON.parse(localStorage.getItem('userList'))
-}
-
-function saveUser(){
-  localStorage.setItem('usernameValue', `${usernameValue}`);
-  localStorage.setItem('passwordValue', `${passwordValue}`);
-}
-
-// function User(name,surname, username,userType, password, tcNo, phoneNumber, email, adress, userType ){
-//   this.name=name;
-//   this.surname=surname;
-//   this.username=username;
-//   this.userType=userType;
-//   this.password=password;
-//   this.tcNo=tcNo;
-//   this.phoneNumber=phoneNumber;
-//   this.email=email;
-//   this.adress=adress;
-//   this.userType=userType;
-// }
 
 
 document.getElementById("register").addEventListener("click",function(e){
@@ -141,10 +120,11 @@ document.getElementById("register").addEventListener("click",function(e){
     checkPhone(phoneTag);
     checkTc(tcNoTag);
     checkUserType();
-    saveToLocalStorage(user);
     submitAccept();
+    newUser();
+    console.log(user);
 })
-
+console.log(user);
 /////////////////////////////////////////////////////////////////////////////////////////
 
 
