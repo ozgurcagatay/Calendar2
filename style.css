@@ -1,3 +1,39 @@
+:root {
+    --primary-clr: #b38add;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+  }
+
+body {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 30px;
+    background-color: #373c4f;
+}
+
+
+
 .card {
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    color:#878895;
+    border-radius: 5px;
+    background-color: #e2e1dc;
+    border-radius: 10px;
+
+}
+
+.btn_color{
+    background-color:#B38ADD ;
+    color: #fff;
+}
+.form-control{
+    background-color: #e1dce2;
 }
