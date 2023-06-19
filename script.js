@@ -105,14 +105,6 @@ function submitAccept(){
 
 document.getElementById("register").addEventListener("click",function(e){
     e.preventDefault();
-    // const name_user= name.value;
-    // const surname_user= surname.value;
-    // const tcNo_user= tcNo.value;
-    // const username_user= username.value;
-    // const phone_user= phone.value;
-    // const email_user= email.value;
-    // const adress_user= adress.value;
-    // const password_user=password.value;
     checkRequired([usernameTag,emailTag,passwordTag,repasswordTag,phoneTag,adressTag,nameTag,surnameTag]);
     checkEmail(emailTag); 
     checkLength(passwordTag,7,12);
@@ -126,6 +118,3 @@ document.getElementById("register").addEventListener("click",function(e){
 })
 console.log(user);
 /////////////////////////////////////////////////////////////////////////////////////////
-
-
-
